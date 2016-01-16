@@ -70,8 +70,6 @@ B.delay = function(delay) {
 }
 
 B.play = function() {
-    const audioContext = new AudioContext()
-
     this.streams.forEach((stream) => {
         const {
             wave,
@@ -142,6 +140,7 @@ const example = {
 };
 
 if (typeof window !== "undefined") {
+    window.audioContext = new AudioContext()
     window.play = () => {
         const joined = B.join(
             B.sine(440).duration(1000),
