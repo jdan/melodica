@@ -1,9 +1,9 @@
-const B = require("../")
+const M = require("../")
 const assert = require("assert")
 
 describe("initial state", () => {
     it("should have a 440hz sine wave initially", () => {
-        const source = B.duration(500)
+        const source = M.duration(500)
         const { wave, frequency } = source.streams[0]
 
         assert.equal(wave, "sine")
@@ -11,14 +11,14 @@ describe("initial state", () => {
     })
 
     it("should have an initial duration of 0ms", () => {
-        const source = B.sine(440)
+        const source = M.sine(440)
         const { duration } = source.streams[0]
 
         assert.equal(duration, 0)
     })
 
     it("should have an initial delay of 0ms", () => {
-        const source = B.sine(440).duration(1000)
+        const source = M.sine(440).duration(1000)
         const { delay } = source.streams[0]
 
         assert.equal(delay, 0)
@@ -27,12 +27,12 @@ describe("initial state", () => {
 
 describe("wave generators", () => {
     it("should have a 440hz sine wave initially", () => {
-        const source = B
+        const source = M
         const { wave, frequency } = source.streams[0]
     })
 
     it("should generate sine waves", () => {
-        const source = B.sine(220)
+        const source = M.sine(220)
         const { wave, frequency } = source.streams[0]
 
         assert.equal(wave, "sine")
@@ -42,9 +42,9 @@ describe("wave generators", () => {
 
 describe("joining streams", () => {
     it("should be able to join two streams", () => {
-        const streamA = B.sine(440).duration(100)
-        const streamB = B.triangle(880).delay(50).duration(150)
-        const source = B.join(streamA, streamB)
+        const streamA = M.sine(440).duration(100)
+        const streamB = M.triangle(880).delay(50).duration(150)
+        const source = M.join(streamA, streamB)
 
         assert.equal(source.streams.length, 2)
 
@@ -57,12 +57,12 @@ describe("joining streams", () => {
     })
 
     it("should be able to join many streams", () => {
-        const streamA = B.sine(100)
-        const streamB = B.triangle(200)
-        const streamC = B.square(300)
-        const streamD = B.sawtooth(400)
+        const streamA = M.sine(100)
+        const streamB = M.triangle(200)
+        const streamC = M.square(300)
+        const streamD = M.sawtooth(400)
 
-        const source = B.join(streamA, streamB, streamC, streamD)
+        const source = M.join(streamA, streamB, streamC, streamD)
 
         assert.equal(source.streams.length, 4)
 
@@ -73,13 +73,13 @@ describe("joining streams", () => {
     })
 
     it("should flatten streams", () => {
-        const streamA = B.sine(100)
-        const streamB = B.triangle(200)
-        const firstJoin = B.join(streamA, streamB)
+        const streamA = M.sine(100)
+        const streamB = M.triangle(200)
+        const firstJoin = M.join(streamA, streamB)
 
-        const streamC = B.square(300)
+        const streamC = M.square(300)
 
-        const source = B.join(firstJoin, streamC)
+        const source = M.join(firstJoin, streamC)
 
         assert.equal(source.streams.length, 3)
 
@@ -91,14 +91,14 @@ describe("joining streams", () => {
 
 describe("delay and duration", () => {
     it("should set a duration on a single stream", () => {
-        const source = B.sine(440).duration(1000)
+        const source = M.sine(440).duration(1000)
         const { duration } = source.streams[0]
 
         assert.equal(duration, 1000)
     })
 
     it("should set a delay on a single stream", () => {
-        const source = B.sine(440).delay(500).duration(1000)
+        const source = M.sine(440).delay(500).duration(1000)
         const { delay, duration } = source.streams[0]
 
         assert.equal(delay, 500)
@@ -106,7 +106,7 @@ describe("delay and duration", () => {
     })
 
     it("should set a duration on multiple streams", () => {
-        const source = B.sine(440).delay(500).duration(1000)
+        const source = M.sine(440).delay(500).duration(1000)
         const { delay, duration } = source.streams[0]
 
         assert.equal(delay, 500)
@@ -119,12 +119,12 @@ describe("delay and duration", () => {
  */
 describe("methods on joined streams", () => {
     it("should change the wave of all streams", () => {
-        const streamA = B.sine(100)
-        const streamB = B.triangle(200)
-        const streamC = B.square(300)
-        const streamD = B.sawtooth(400)
+        const streamA = M.sine(100)
+        const streamB = M.triangle(200)
+        const streamC = M.square(300)
+        const streamD = M.sawtooth(400)
 
-        const source = B.join(streamA, streamB, streamC, streamD).sine(1000)
+        const source = M.join(streamA, streamB, streamC, streamD).sine(1000)
 
         assert.equal(source.streams.length, 4)
 
@@ -140,13 +140,13 @@ describe("methods on joined streams", () => {
     })
 
     it("should change the duration and delay of all streams", () => {
-        const streamA = B.sine(100)
-        const streamB = B.triangle(200)
-        const streamC = B.square(300)
-        const streamD = B.sawtooth(400)
+        const streamA = M.sine(100)
+        const streamB = M.triangle(200)
+        const streamC = M.square(300)
+        const streamD = M.sawtooth(400)
 
         const source =
-            B.join(streamA, streamB, streamC, streamD)
+            M.join(streamA, streamB, streamC, streamD)
              .duration(1000)
              .delay(500)
 

@@ -14,7 +14,7 @@
  */
 
 // Initial state
-const B = {
+const Melodica = {
     streams: [
         {
             wave: "sine",
@@ -27,9 +27,9 @@ const B = {
     ],
 }
 
-B.wave = function(wave, frequency) {
+Melodica.wave = function(wave, frequency) {
     return {
-        ...B,
+        ...Melodica,
         streams: this.streams.map((stream) => {
             return {
                 ...stream,
@@ -40,14 +40,14 @@ B.wave = function(wave, frequency) {
     }
 }
 
-B.sine     = function(frequency) { return this.wave("sine",     frequency) }
-B.square   = function(frequency) { return this.wave("square",   frequency) }
-B.triangle = function(frequency) { return this.wave("triangle", frequency) }
-B.sawtooth = function(frequency) { return this.wave("sawtooth", frequency) }
+Melodica.sine     = function(frequency) { return this.wave("sine",     frequency) }
+Melodica.square   = function(frequency) { return this.wave("square",   frequency) }
+Melodica.triangle = function(frequency) { return this.wave("triangle", frequency) }
+Melodica.sawtooth = function(frequency) { return this.wave("sawtooth", frequency) }
 
-B.duration = function(duration) {
+Melodica.duration = function(duration) {
     return {
-        ...B,
+        ...Melodica,
         streams: this.streams.map((stream) => {
             return {
                 ...stream,
@@ -57,9 +57,9 @@ B.duration = function(duration) {
     }
 }
 
-B.delay = function(delay) {
+Melodica.delay = function(delay) {
     return {
-        ...B,
+        ...Melodica,
         streams: this.streams.map((stream) => {
             return {
                 ...stream,
@@ -69,7 +69,7 @@ B.delay = function(delay) {
     }
 }
 
-B.play = function() {
+Melodica.play = function() {
     this.streams.forEach((stream) => {
         const {
             wave,
@@ -92,9 +92,9 @@ B.play = function() {
     })
 }
 
-B.join = (...sources) => {
+Melodica.join = (...sources) => {
     return {
-        ...B,
+        ...Melodica,
         streams: sources.reduce((acc, source) => {
             return acc.concat(source.streams)
         }, []),
@@ -142,9 +142,9 @@ const example = {
 if (typeof window !== "undefined") {
     window.audioContext = new AudioContext()
     window.play = () => {
-        const joined = B.join(
-            B.sine(440).duration(1000),
-            B.sine(880).duration(500).delay(500)
+        const joined = Melodica.join(
+            Melodica.sine(440).duration(1000),
+            Melodica.sine(880).duration(500).delay(500)
         )
 
         console.log(joined)
@@ -152,4 +152,4 @@ if (typeof window !== "undefined") {
     }
 }
 
-module.exports = B
+module.exports = Melodica
